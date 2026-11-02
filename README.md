@@ -1,6 +1,6 @@
 # Trazabilidad de contenedores
 
-Trazabilidad de contenedores: propuesta de sistema nacional de rastreo e inventario de contenedores marítimos no retornados (segundo uso) en México. Obra de Víctor Hugo Ramírez Salgado.
+Trazabilidad de contenedores: sistema y propuesta de rastreo e inventario de contenedores marítimos de segundo uso, con corredor binacional Ensenada–Long Beach. Obra de Víctor Hugo Ramírez Salgado.
 
 Sitio: https://tcontenedores.com · Copia en https://victorhugoramirezsalgado.com/tcontenedores/
 
