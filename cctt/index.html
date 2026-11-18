@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CCTT · Centro de Control de Tráfico Terrestre · Trazabilidad de contenedores</title>
+<meta name="description" content="Prototipo del Centro de Control de Tráfico Terrestre (CCTT) del módulo de trazabilidad de contenedores: citas por ventana con capacidad real, horario de aduana, acceso portuario y terminal, cancelaciones transparentes e informes a autoridades. Obra de Víctor Hugo Ramírez Salgado.">
+<meta name="author" content="Víctor Hugo Ramírez Salgado">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2C3A32">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cctt.css?v=2">
+</head>
+<body>
+<div class="regreso"><div class="cont">
+<a class="b3d mostaza" id="regresar" href="../">&larr; <span id="regresar-txt">tcontenedores.com</span></a>
+<small>Prototipo con datos simulados · nada de lo que captures sale de este teléfono o computadora</small>
+<label class="idioma"><span class="oculto">Idioma</span><select id="idioma" aria-label="Idioma"><option value="">Español</option>
+<optgroup label="ONU"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option><option value="zh-CN">中文</option><option value="ru">Русский</option></optgroup>
+<optgroup label="Europa"><option value="pt">Português</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="nl">Nederlands</option><option value="pl">Polski</option><option value="uk">Українська</option><option value="el">Ελληνικά</option><option value="sv">Svenska</option><option value="ro">Română</option><option value="ca">Català</option><option value="eu">Euskara</option><option value="gl">Galego</option></optgroup>
+<optgroup label="Asia"><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="vi">Tiếng Việt</option><option value="th">ไทย</option><option value="id">Bahasa Indonesia</option><option value="tr">Türkçe</option><option value="he">עברית</option><option value="fa">فارسی</option></optgroup>
+<optgroup label="Regionales"><option value="yua">Maya yucateco</option><option value="nhe">Náhuatl</option></optgroup></select></label>
+</div></div>
+
+<header class="cab"><div class="cont">
+<div class="tit">
+<span class="et">MÓDULO DE TRAZABILIDAD DE CONTENEDORES · CONTOPÍA</span>
+<h1 data-morse="CCTT" title="Toca para oír en Morse">Centro de Control de Tráfico Terrestre</h1>
+<p class="lema">Citas por ventana con la capacidad real de la terminal y el horario de la aduana, del Centro Regulador al acceso portuario y a la terminal de contenedores, con informe al momento a las autoridades.</p>
+<p class="morse-linea" id="morse" aria-live="polite"></p>
+</div>
+<div class="rol">
+<label for="rol">Entrar como</label>
+<select id="rol">
+<option value="operador">Operador neutral del CCTT</option>
+<option value="asipona">ASIPONA Ensenada (SEMAR)</option>
+<option value="aduana">Aduana de Ensenada (ANAM)</option>
+<option value="terminal">Terminal de contenedores</option>
+<option value="transportista">Transportista (SPF)</option>
+<option value="naviera">Línea naviera</option>
+</select>
+<small id="rol-desc"></small>
+</div>
+</div></header>
+
+<nav class="pestanas cont" role="tablist" aria-label="Secciones">
+<button class="pest" role="tab" data-p="tablero" aria-selected="true">Tablero</button>
+<button class="pest" role="tab" data-p="ventanas" aria-selected="false">Ventanas y capacidad</button>
+<button class="pest" role="tab" data-p="citas" aria-selected="false">Citas</button>
+<button class="pest" role="tab" data-p="recorrido" aria-selected="false">Recorrido</button>
+<button class="pest" role="tab" data-p="equidad" aria-selected="false">Equidad y cancelaciones</button>
+<button class="pest" role="tab" data-p="informes" aria-selected="false">Informes a autoridades</button>
+<button class="pest" role="tab" data-p="roles" aria-selected="false">Usuarios y roles</button>
+</nav>
+
+<main class="cont">
+
+<section class="panel" id="p-tablero" role="tabpanel">
+<div class="kpis" id="kpis"></div>
+<div class="fila2">
+<div class="caja"><h2>Hoy, por hora</h2><p class="nota">Barra = citas confirmadas; línea = capacidad calculada con el rendimiento real. Gris = fuera del horario de la aduana (solo vacíos).</p><div id="graf-horas" class="graf"></div></div>
+<div class="caja"><h2>Dónde están los camiones ahora</h2><div id="flujo" class="flujo"></div></div>
+</div>
+<div class="caja"><h2>Alertas</h2><ul id="alertas" class="lista"></ul></div>
+</section>
+
+<section class="panel" id="p-ventanas" role="tabpanel" hidden>
+<div class="caja">
+<h2>Reglas de capacidad</h2>
+<p class="nota">La capacidad de cada ventana no la decide una sola parte: sale de la fórmula y queda registrada. Todo cambio manual exige motivo y se avisa a ASIPONA y a la Aduana.</p>
+<div class="params" id="params"></div>
+<p class="formula mono" id="formula"></p>
+</div>
+<div class="caja"><h2>Ventanas del día</h2><div class="tabla-c"><table id="tabla-ventanas"></table></div></div>
+<div class="caja"><h2>Cambios de capacidad registrados</h2><ul id="cambios" class="lista"></ul></div>
+</section>
+
+<section class="panel" id="p-citas" role="tabpanel" hidden>
+<div class="fila2">
+<form class="caja" id="form-cita" novalidate>
+<h2>Solicitar cita</h2>
+<label>Transportista (SPF)<select name="transp" id="f-transp"></select></label>
+<label>Placa del tractocamión<input name="placa" required maxlength="10" placeholder="Ej. 12AB3C"></label>
+<label>Operador (DEO del PIS)<input name="operador" required maxlength="40" placeholder="Nombre del operador"></label>
+<label>Contenedor (ISO 6346)<input name="cont" class="mono" required maxlength="11" placeholder="ABCU1234565"></label>
+<label>Movimiento<select name="tipo" id="f-tipo"></select></label>
+<label>Línea naviera y carta de asignación<input name="carta" maxlength="30" placeholder="Ej. Naviera A · CA-2611-0042"></label>
+<label>Ventana<select name="ventana" id="f-ventana"></select></label>
+<p class="nota" id="f-regla"></p>
+<button class="b3d verde" type="submit">Confirmar cita</button>
+<p class="msg" id="f-msg" role="status"></p>
+</form>
+<div class="caja">
+<h2>Política de cancelación (igual para todos)</h2>
+<ul class="lista" id="politica"></ul>
+</div>
+</div>
+<div class="caja"><h2>Citas del día</h2><div class="filtros"><label>Buscar<input id="buscar" placeholder="Contenedor, placa o transportista"></label><label>Estado<select id="f-estado"><option value="">Todos</option><option>Confirmada</option><option>En CRT</option><option>En acceso ASIPONA</option><option>En terminal</option><option>Concluida</option><option>Cancelada</option><option>No se presentó</option></select></label></div>
+<div class="tabla-c"><table id="tabla-citas"></table></div></div>
+</section>
+
+<section class="panel" id="p-recorrido" role="tabpanel" hidden>
+<div class="caja">
+<h2>Recorrido de una cita</h2>
+<p class="nota">Cada paso queda con hora y con quien lo registró: Centro Regulador de Transporte → acceso portuario de ASIPONA (lectura del PIS) → puerta de la terminal → salida.</p>
+<label class="ancho">Cita<select id="r-cita"></select></label>
+<div id="r-linea" class="linea"></div>
+<div id="r-acciones" class="acciones"></div>
+<div id="r-qr" class="qr"></div>
+</div>
+</section>
+
+<section class="panel" id="p-equidad" role="tabpanel" hidden>
+<div class="kpis" id="kpis-eq"></div>
+<div class="fila2">
+<div class="caja"><h2>Cupos asignados por tipo de transportista</h2><div id="eq-cupos" class="barras"></div></div>
+<div class="caja"><h2>Cancelaciones y cargos por responsable</h2><div class="tabla-c"><table id="eq-cargos"></table></div></div>
+</div>
+<div class="caja"><h2>Ventanas abiertas con poca anticipación</h2><p class="nota">Una ventana que se abre a última hora favorece a quien ya está listo. El sistema las marca y las informa.</p><ul id="eq-tardias" class="lista"></ul></div>
+</section>
+
+<section class="panel" id="p-informes" role="tabpanel" hidden>
+<div class="caja">
+<h2>Informe diario a autoridades</h2>
+<label class="ancho">Para<select id="i-dest"><option value="todas">Todas las autoridades</option><option value="aduana">Aduana de Ensenada (ANAM)</option><option value="asipona">ASIPONA Ensenada (SEMAR)</option><option value="capitania">Capitanía de Puerto</option><option value="comite">Comité de Operación del Puerto</option></select></label>
+<div id="informe" class="informe"></div>
+<div class="acciones"><button class="b3d verde" id="i-csv">Descargar CSV</button><button class="b3d" id="i-imprimir">Imprimir o guardar PDF</button></div>
+</div>
+<div class="caja">
+<h2>Bitácora con huella digital</h2>
+<p class="nota">Cada registro lleva la huella SHA-256 del anterior. Si alguien borra o cambia uno, la cadena se rompe y se nota.</p>
+<div class="acciones"><button class="b3d" id="b-verificar">Verificar la cadena</button><span id="b-res" class="msg"></span></div>
+<div class="tabla-c"><table id="bitacora"></table></div>
+</div>
+</section>
+
+<section class="panel" id="p-roles" role="tabpanel" hidden>
+<div class="caja"><h2>Quién ve y quién hace qué</h2><div class="tabla-c"><table id="matriz"></table></div>
+<p class="nota">En operación real cada usuario entra con su cuenta, y ASIPONA da de alta a los usuarios que disponga. Este prototipo no tiene servidor: sirve para mostrar el funcionamiento.</p></div>
+</section>
+
+</main>
+
+<footer class="pie"><div class="cont">
+<p><b>CCTT</b> · Centro de Control de Tráfico Terrestre, módulo de la trazabilidad de contenedores (Contopía). Prototipo con datos simulados; no representa operaciones reales de ninguna empresa ni autoridad.</p>
+<p>© 2026 Víctor Hugo Ramírez Salgado. Todos los derechos reservados · Trazabilidad de contenedores: Safe Creative 2610317507741. Prohibida su reproducción total o parcial y su uso para entrenar inteligencia artificial sin autorización escrita del titular.</p>
+</div></footer>
+<script src="cubo-rt.js"></script>
+<script src="cctt.js?v=2"></script>
+<script src="../sitio.js"></script>
+</body>
+</html>
