@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CCTT · Centro de Control de Tráfico Terrestre · Trazabilidad de contenedores</title>
-<meta name="description" content="Prototipo del Centro de Control de Tráfico Terrestre (CCTT) del módulo de trazabilidad de contenedores: citas por ventana con capacidad real, horario de aduana, acceso portuario y terminal, cancelaciones transparentes e informes a autoridades. Obra de Víctor Hugo Ramírez Salgado.">
+<meta name="description" content="Prototipo del Centro de Control de Tráfico Terrestre (CCTT) para contenedores vacíos en el Puerto de Ensenada: citas por ventana con capacidad real y horario de aduana, mejora anual obligatoria, comparativo nacional, cancelaciones sin cargo por fuerza mayor e informes a autoridades. Obra de Víctor Hugo Ramírez Salgado.">
 <meta name="author" content="Víctor Hugo Ramírez Salgado">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#2C3A32">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="cctt.css?v=2">
+<link rel="stylesheet" href="cctt.css?v=3">
 </head>
 <body>
 <div class="regreso"><div class="cont">
@@ -27,7 +27,7 @@
 <div class="tit">
 <span class="et">MÓDULO DE TRAZABILIDAD DE CONTENEDORES · CONTOPÍA</span>
 <h1 data-morse="CCTT" title="Toca para oír en Morse">Centro de Control de Tráfico Terrestre</h1>
-<p class="lema">Citas por ventana con la capacidad real de la terminal y el horario de la aduana, del Centro Regulador al acceso portuario y a la terminal de contenedores, con informe al momento a las autoridades.</p>
+<p class="lema">Solo contenedores vacíos. El transporte terrestre hace su cita aquí, fuera del puerto, con un operador neutral: la ventana sale del horario de la aduana y de la capacidad real de la terminal, con mejora anual obligatoria, reglas iguales para todos, sin cargos por fuerza mayor e informe al momento a las autoridades.</p>
 <p class="morse-linea" id="morse" aria-live="polite"></p>
 </div>
 <div class="rol">
@@ -51,6 +51,9 @@
 <button class="pest" role="tab" data-p="recorrido" aria-selected="false">Recorrido</button>
 <button class="pest" role="tab" data-p="equidad" aria-selected="false">Equidad y cancelaciones</button>
 <button class="pest" role="tab" data-p="informes" aria-selected="false">Informes a autoridades</button>
+<button class="pest" role="tab" data-p="mejora" aria-selected="false">Capacidad y mejora anual</button>
+<button class="pest" role="tab" data-p="comparativo" aria-selected="false">Comparativo nacional</button>
+<button class="pest" role="tab" data-p="interfaces" aria-selected="false">Interfaces</button>
 <button class="pest" role="tab" data-p="roles" aria-selected="false">Usuarios y roles</button>
 </nav>
 
@@ -79,13 +82,13 @@
 <section class="panel" id="p-citas" role="tabpanel" hidden>
 <div class="fila2">
 <form class="caja" id="form-cita" novalidate>
-<h2>Solicitar cita</h2>
+<h2>Solicitar cita de vacío</h2>
 <label>Transportista (SPF)<select name="transp" id="f-transp"></select></label>
 <label>Placa del tractocamión<input name="placa" required maxlength="10" placeholder="Ej. 12AB3C"></label>
 <label>Operador (DEO del PIS)<input name="operador" required maxlength="40" placeholder="Nombre del operador"></label>
 <label>Contenedor (ISO 6346)<input name="cont" class="mono" required maxlength="11" placeholder="ABCU1234565"></label>
 <label>Movimiento<select name="tipo" id="f-tipo"></select></label>
-<label>Línea naviera y carta de asignación<input name="carta" maxlength="30" placeholder="Ej. Naviera A · CA-2611-0042"></label>
+<label>Línea naviera y carta de asignación (obligatoria para retiro)<input name="carta" maxlength="30" placeholder="Ej. Naviera A · CA-2611-0042"></label>
 <label>Ventana<select name="ventana" id="f-ventana"></select></label>
 <p class="nota" id="f-regla"></p>
 <button class="b3d verde" type="submit">Confirmar cita</button>
@@ -135,6 +138,43 @@
 </div>
 </section>
 
+<section class="panel" id="p-mejora" role="tabpanel" hidden>
+<div class="caja"><h2>Mejora anual obligatoria de la capacidad real</h2>
+<p class="nota">Las terminales del mundo suben su capacidad cada año. Aquí la meta se mide con datos del CCTT y se valida con ASIPONA: no basta con anunciar capacidad, tiene que verse en la puerta.</p>
+<div class="params" id="mejora-meta"></div>
+<div class="tabla-c"><table id="mejora-tabla"></table></div>
+<p class="nota">Base: capacidad teórica de la puerta con los parámetros de «Ventanas y capacidad» y TEU por grúa de EIT en 2025. Meta ilustrativa: el porcentaje lo fija el Comité de Operación.</p></div>
+<div class="caja"><h2>Reglas de la mejora</h2><ul class="lista" id="mejora-reglas"></ul></div>
+</section>
+
+<section class="panel" id="p-comparativo" role="tabpanel" hidden>
+<div class="caja"><h2>Comparativo con terminales de contenedores de México</h2>
+<p class="nota">Datos públicos más recientes que se encontraron. Algunos son de años distintos y se indica cuál. No son auditados: sirven para pedir los datos oficiales.</p>
+<div class="tabla-c"><table id="comp-tabla"></table></div></div>
+<div class="caja"><h2>Qué dicen los números</h2><ul class="lista" id="comp-lectura"></ul></div>
+<div class="caja"><h2>Datos que faltan y hay que pedir</h2><ul class="lista" id="comp-pend"></ul></div>
+<div class="caja fuentes"><h2>Fuentes</h2><ol>
+<li>ASIPONA Ensenada. (2025). <i>Informe estadístico mensual: noviembre 2025</i>. https://puertoensenada.com.mx/upl/sec/Acumulado%20de%20cargas%202025/Acumulado_Noviembre.pdf</li>
+<li>ASIPONA Ensenada. (2026). <i>Programa institucional 2025–2030: avance y resultados 2025–2026</i>. https://es.puertoensenada.com.mx/upl/sec/807141843bd04d6c8339501d3e2b6ffc7468bc56.pdf</li>
+<li>Zeta Tijuana. (2025, mayo). Hutchison Ports recibe simultáneamente dos buques de gran calado en Ensenada. https://zetatijuana.com/2025/05/hutchison-ports-recibe-simultaneamente-dos-buques-de-gran-calado-en-ensenada/</li>
+<li>Forbes México. (2023). Ampliación de Hutchison Ports EIT en Ensenada. https://forbes.com.mx/?p=1104193</li>
+<li>Central Municipal. (2024, 31 de octubre). Hutchison Ports presenta la expansión de su TUM en Ensenada. https://centralmunicipal.mx/?p=104756</li>
+<li>Clúster Industrial. (2026, 5 de enero). Hutchison Ports LCT cierra 2025 con 1.5 millones de TEUs. https://clusterindustrial.com.mx/hutchison-ports-lct-cierra-2025-con-1-5-millones-de-teus-en-lazaro-cardenas/</li>
+<li>Eje Central. (2025). Hutchison Ports LCT rompe récord histórico en 2024. https://www.ejecentral.com.mx/nuestro-eje/hutchison-ports-lct-rompe-record-historico-en-2024-y-celebra-18-anos-de-operaciones-en-lazaro-cardenas</li>
+<li>SDP Noticias. (2025). Hutchison Ports LCT destina 600 mdp. https://www.sdpnoticias.com/estados/hutchison-ports-lct-destina-600-mdp-para-mejorar-capacidad-operativa-y-logistica-en-lazaro-cardenas/</li>
+<li>DPL News. (2025). Contecon Manzanillo crece con un enfoque en innovación y sostenibilidad. https://dplnews.com/?p=284657</li>
+<li>MundoMarítimo. (2024). Contecon Manzanillo recibe dos grúas STS y cinco RTG. https://www.mundomaritimo.cl/noticias/contecon-manzanillo-mexico-recibe-dos-gruas-sts-y-cinco-rtgs</li>
+<li>The Logistics World. (2026). Megabuques en Manzanillo. https://thelogisticsworld.com/transporte/megabuques-en-manzanillo-que-cambia-en-la-logistica-del-pacifico-mexicano/</li>
+<li>México Industry. (2026). Puerto de Manzanillo, plataforma estratégica. https://mexicoindustry.com/noticia/puerto-de-manzanillo-plataforma-estrategica-del-comercio-internacional-mexicano</li>
+</ol></div>
+</section>
+
+<section class="panel" id="p-interfaces" role="tabpanel" hidden>
+<div class="caja"><h2>Interfaces del CCTT con autoridades y usuarios</h2>
+<p class="nota">El CCTT es un sistema privado, afuera del puerto, que se conecta con cada parte. Ninguna conexión está activa: todas dependen de convenio.</p>
+<div class="tabla-c"><table id="interf"></table></div></div>
+</section>
+
 <section class="panel" id="p-roles" role="tabpanel" hidden>
 <div class="caja"><h2>Quién ve y quién hace qué</h2><div class="tabla-c"><table id="matriz"></table></div>
 <p class="nota">En operación real cada usuario entra con su cuenta, y ASIPONA da de alta a los usuarios que disponga. Este prototipo no tiene servidor: sirve para mostrar el funcionamiento.</p></div>
@@ -143,11 +183,11 @@
 </main>
 
 <footer class="pie"><div class="cont">
-<p><b>CCTT</b> · Centro de Control de Tráfico Terrestre, módulo de la trazabilidad de contenedores (Contopía). Prototipo con datos simulados; no representa operaciones reales de ninguna empresa ni autoridad.</p>
+<p><b>CCTT</b> · Centro de Control de Tráfico Terrestre para contenedores vacíos, módulo de la trazabilidad de contenedores (Contopía), por autoría de Víctor Hugo Ramírez Salgado. Prototipo con datos simulados; no representa operaciones reales de ninguna empresa ni autoridad.</p>
 <p>© 2026 Víctor Hugo Ramírez Salgado. Todos los derechos reservados · Trazabilidad de contenedores: Safe Creative 2610317507741. Prohibida su reproducción total o parcial y su uso para entrenar inteligencia artificial sin autorización escrita del titular.</p>
 </div></footer>
 <script src="cubo-rt.js"></script>
-<script src="cctt.js?v=2"></script>
+<script src="cctt.js?v=3"></script>
 <script src="../sitio.js"></script>
 </body>
 </html>

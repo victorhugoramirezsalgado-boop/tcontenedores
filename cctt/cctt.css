@@ -107,3 +107,9 @@ form.caja{gap:10px}
 .pie .cont{padding-top:18px;padding-bottom:22px}
 .pie b{color:var(--mostaza)}
 @media print{.regreso,.cab .rol,.pestanas,.acciones,.pie,.panel:not(#p-informes){display:none!important}#p-informes{display:grid!important}.caja{border:0}}
+/* v3 · vacíos, causas, comparativo */
+.causa{display:block;font-size:12px;color:#6b6b5f;margin-top:2px;font-weight:400}
+tr.resalta td{background:#FFF7DD}
+tr.prom td{font-weight:700;border-top:2px solid #2C3A32}
+.fuentes ol{padding-left:20px;font-size:13px;line-height:1.5;word-break:break-word}
+.fuentes li{margin-bottom:6px}
