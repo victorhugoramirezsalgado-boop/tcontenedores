@@ -1,0 +1,30 @@
+/* © 2026 Víctor Hugo Ramírez Salgado — Costeo por contenedor (complemento de cctt.css) */
+main{padding-top:18px;padding-bottom:40px;display:grid;gap:16px}
+.caja h3{margin:14px 0 6px;font:700 15px "Space Grotesk",sans-serif;color:var(--verde)}
+label.chk{display:flex;align-items:center;gap:8px;align-self:end}
+label.chk input{width:auto;min-height:auto}
+#cargos input{width:100%;min-width:90px}
+#cargos input.n{text-align:right}
+#cargos select{min-width:56px}
+tr.pend td:first-child::after{content:" ‡";text-decoration:underline;color:var(--aviso)}
+.acciones{display:flex;flex-wrap:wrap;gap:8px}
+.compara{margin-top:14px;padding:12px 14px;border-left:4px solid var(--mostaza);background:var(--crema);border-radius:8px}
+.compara b.rojo{color:var(--rojo)}
+.nom td:first-child{font-family:"JetBrains Mono",monospace;font-weight:700;width:90px}
+.puntos{padding-left:20px}.puntos li{margin:.35em 0;text-align:justify}
+@media print{.regreso,.acciones,.rol,#agregar{display:none}}
+main>*{min-width:0}
+.tabla-c{overflow-x:auto;max-width:100%}
+.fila2>*{min-width:0}
+@media (max-width:620px){
+ #cargos thead{display:none}
+ #cargos,#cargos tbody,#cargos tr,#cargos td{display:block;width:100%;min-width:0}
+ #cargos tr{display:grid;grid-template-columns:1fr 64px 44px;gap:6px;padding:10px 0;border-bottom:1px solid var(--linea)}
+ #cargos td{padding:0;border:0}
+ #cargos td:nth-child(1){grid-column:1/-1;grid-row:1}
+ #cargos td:nth-child(2){grid-column:1/-1;grid-row:2}
+ #cargos td:nth-child(4){grid-column:1;grid-row:3}
+ #cargos td:nth-child(3){grid-column:2;grid-row:3}
+ #cargos td:nth-child(5){grid-column:3;grid-row:3}
+ #cargos td.n{text-align:left}
+}

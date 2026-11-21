@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Costeo por contenedor · Trazabilidad de contenedores</title>
+<meta name="description" content="Costeo puerta a puerta por contenedor: valor en aduana, arancel, DTA, IVA y cargos de naviera, puerto, terminal, aduana y transporte, por actor y por nivel. Módulo de la trazabilidad de contenedores (Contopía), obra de Víctor Hugo Ramírez Salgado.">
+<meta name="author" content="Víctor Hugo Ramírez Salgado">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2C3A32">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../cctt/cctt.css?v=6">
+<link rel="stylesheet" href="costos.css?v=4">
+</head>
+<body>
+<div class="regreso"><div class="cont">
+<a class="b3d mostaza" href="../">&larr; tcontenedores.com</a>
+<small>Herramienta de cálculo · lo que captures se queda en este teléfono o computadora</small>
+<label class="idioma"><span class="oculto">Idioma</span><select id="idioma" aria-label="Idioma"><option value="">Español</option>
+<optgroup label="ONU"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option><option value="zh-CN">中文</option><option value="ru">Русский</option></optgroup>
+<optgroup label="Europa"><option value="pt">Português</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="nl">Nederlands</option><option value="pl">Polski</option><option value="uk">Українська</option><option value="el">Ελληνικά</option><option value="sv">Svenska</option><option value="ro">Română</option><option value="ca">Català</option><option value="eu">Euskara</option><option value="gl">Galego</option></optgroup>
+<optgroup label="Asia"><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="vi">Tiếng Việt</option><option value="th">ไทย</option><option value="id">Bahasa Indonesia</option><option value="tr">Türkçe</option><option value="he">עברית</option><option value="fa">فارسی</option></optgroup>
+<optgroup label="Regionales"><option value="yua">Maya yucateco</option><option value="nhe">Náhuatl</option></optgroup></select></label>
+</div></div>
+
+<header class="cab"><div class="cont">
+<div class="tit">
+<span class="et">MÓDULO DE TRAZABILIDAD DE CONTENEDORES · CONTOPÍA©</span>
+<h1 data-morse="COSTEO" title="Toca para oír en Morse">Costeo por contenedor</h1>
+<p class="lema">Cuánto cuesta de verdad un contenedor de importación, de principio a fin y con cada cargo atribuido a quien lo cobra: naviera, puerto, terminal, aduana, agente aduanal, transporte y patio. Así se compara, se negocia y se transparenta.</p>
+<p class="morse-linea" id="morse" aria-live="polite"></p>
+</div>
+<div class="rol">
+<label for="ejemplo">Escenario</label>
+<select id="ejemplo">
+<option value="hoja">Frijol 25 t · hoja de VHRS (arancel 10 %)</option>
+<option value="tmec">Frijol 25 t · origen EUA con T-MEC (0 %)</option>
+<option value="nmf">Frijol 25 t · sin tratado (NMF 20 %)</option>
+<option value="general">Mercancía general (IVA 16 %)</option>
+</select>
+<small>Cambia el escenario y ajusta las cifras a tu operación.</small>
+</div>
+</div></header>
+
+<main class="cont">
+
+<section class="caja">
+<h2>1. Mercancía y valor en aduana</h2>
+<div class="params">
+<label>Mercancía<input id="merc" type="text"></label>
+<label>Fracción arancelaria (TIGIE)<input id="frac" class="mono" type="text"></label>
+<label>Peso neto (kg)<input id="kg" type="number" min="0" step="100"></label>
+<label>Contenedores<input id="ncont" type="number" min="1" step="1"></label>
+<label>Valor factura (MXN)<input id="fact" type="number" min="0" step="1000"></label>
+<label>Flete marítimo internacional (MXN)<input id="flete" type="number" min="0" step="500"></label>
+<label>Seguro (% sobre factura)<input id="seg" type="number" min="0" step="0.1"></label>
+<label class="chk"><input id="cif" type="checkbox"> La factura ya incluye flete y seguro (CIF)</label>
+</div>
+<h3>Contribuciones</h3>
+<div class="params">
+<label>Arancel IGI (%)<input id="igi" type="number" min="0" step="1"></label>
+<label>Cuota compensatoria (%)<input id="cc" type="number" min="0" step="1"></label>
+<label>IVA de importación<select id="iva"><option value="0">0 % · alimentos (LIVA art. 25, fr. III)</option><option value="16">16 % · tasa general</option></select></label>
+<label>DTA (al millar)<input id="dta" type="number" min="0" step="0.5"></label>
+<label>Prevalidación y otros derechos (MXN)<input id="prv" type="number" min="0" step="10"></label>
+</div>
+<p class="nota">Botones rápidos de arancel:
+<button class="b3d chico" data-igi="0">0 % · T-MEC / TLC</button>
+<button class="b3d chico" data-igi="10">10 % · hoja</button>
+<button class="b3d chico" data-igi="20">20 % · NMF</button></p>
+</section>
+
+<section class="caja">
+<h2>2. Cargos por actor</h2>
+<p class="nota">Nivel: <span class="chip">I</span> internacional · <span class="chip">F</span> federal · <span class="chip">N</span> nacional · <span class="chip">L</span> local. Toca una cifra para cambiarla. Las filas marcadas con <u>‡</u> están por confirmar.</p>
+<div class="tabla-c"><table id="cargos"><thead><tr><th>Concepto</th><th>Lo cobra</th><th>Nivel</th><th class="n">MXN</th><th></th></tr></thead><tbody></tbody></table></div>
+<p class="acciones"><button class="b3d verde" id="agregar">+ Agregar cargo</button></p>
+</section>
+
+<section class="caja">
+<h2>3. Resultado</h2>
+<div class="kpis" id="kpis"></div>
+<div class="fila2">
+<div><h3>Desglose de contribuciones</h3><div class="tabla-c"><table id="contrib"></table></div></div>
+<div><h3>Por nivel y por actor</h3><div class="tabla-c"><table id="niveles"></table></div><div class="tabla-c"><table id="actores"></table></div></div>
+</div>
+<div id="compara" class="compara"></div>
+<p class="acciones">
+<button class="b3d verde" id="guardar">Guardar en este equipo</button>
+<button class="b3d" id="csv">Descargar CSV</button>
+<button class="b3d" id="imprimir">Imprimir / PDF</button>
+<button class="b3d rojo" id="reset">Restablecer escenario</button>
+</p>
+<p class="msg" id="msg" aria-live="polite"></p>
+</section>
+
+<section class="caja">
+<h2>Cómo se calcula</h2>
+<ol class="puntos">
+<li><b>Valor en aduana (VA)</b> = factura + flete marítimo + seguro, salvo que la factura ya sea CIF. Es la base del arancel y del DTA (Ley Aduanera, arts. 64 y 65<u>‡</u>).</li>
+<li><b>IGI</b> = VA × arancel. <b>CC</b> = VA × cuota compensatoria.</li>
+<li><b>DTA</b> = VA × 8 al millar (Ley Federal de Derechos, art. 49).</li>
+<li><b>IVA</b> = (VA + IGI + CC + DTA) × tasa (LIVA, art. 27). A los alimentos del artículo 2-A no se les cobra IVA en la importación (LIVA, art. 25, fr. III).</li>
+<li><b>Costo del contenedor</b> = flete + contribuciones + cargos de la sección 2. <b>Costo puesto en destino</b> = factura + costo del contenedor.</li>
+</ol>
+<p class="nota"><u>‡</u> Dato con menos de 90–95 % de confirmación en las fuentes consultadas: verifícalo con tu agente aduanal. El IVA pagado en la importación suele ser acreditable; el arancel y el DTA no. Esta herramienta estima y no sustituye el pedimento ni la asesoría de un agente aduanal.</p>
+</section>
+
+<section class="caja">
+<h2>Índice de nomenclaturas</h2>
+<div class="tabla-c"><table class="nom"><tbody>
+<tr><td>CC</td><td>Cuota compensatoria</td></tr>
+<tr><td>CIF</td><td>Costo, seguro y flete (Incoterm)</td></tr>
+<tr><td>DTA</td><td>Derecho de trámite aduanero</td></tr>
+<tr><td>IGI</td><td>Impuesto general de importación (arancel)</td></tr>
+<tr><td>IVA</td><td>Impuesto al valor agregado</td></tr>
+<tr><td>LIVA</td><td>Ley del Impuesto al Valor Agregado</td></tr>
+<tr><td>NMF</td><td>Nación más favorecida (arancel sin tratado)</td></tr>
+<tr><td>SPF</td><td>Servicio público federal de autotransporte de carga</td></tr>
+<tr><td>T-MEC</td><td>Tratado entre México, Estados Unidos y Canadá</td></tr>
+<tr><td>TIGIE</td><td>Tarifa de la Ley de los Impuestos Generales de Importación y de Exportación</td></tr>
+<tr><td>VA</td><td>Valor en aduana</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="caja fuentes">
+<h2>Referencias</h2>
+<ol>
+<li>Cámara de Diputados del H. Congreso de la Unión. (s. f.). <i>Ley del Impuesto al Valor Agregado</i> (arts. 2-A, 25 y 27). https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf</li>
+<li>Cámara de Diputados del H. Congreso de la Unión. (s. f.). <i>Ley Federal de Derechos</i> (art. 49). https://www.diputados.gob.mx/LeyesBiblio/pdf/LFD.pdf</li>
+<li>Cámara de Diputados del H. Congreso de la Unión. (s. f.). <i>Ley Aduanera</i> (arts. 64 y 65). https://www.diputados.gob.mx/LeyesBiblio/pdf/LAdua.pdf</li>
+<li>Servicio de Administración Tributaria. (2025). <i>Anexo 27 de las Reglas Generales de Comercio Exterior para 2025: fracciones arancelarias por cuya importación no se está obligado al pago del IVA</i>. https://www.sat.gob.mx/minisitio/NormatividadRMFyRGCE/documentos2025/rgce/anexos/Anexo27delasRGCEpara2025.pdf</li>
+<li>Secretaría de Economía. (2025, 31 de diciembre). Decreto por el que se modifica el diverso por el que se exenta el pago de arancel de importación [...]. <i>Diario Oficial de la Federación</i>. https://www.diputados.gob.mx/LeyesBiblio/ref/ligie_2022/LIGIE_2022_tarifa14_31dic25.pdf</li>
+<li>Camtom. (2026). <i>Fracción arancelaria 0713.33.01: frijol común seco</i>. https://camtomx.com/fraccion/0713-33-01</li>
+</ol>
+</section>
+
+</main>
+
+<footer class="pie"><div class="cont">
+<p><b>Costeo por contenedor</b>, módulo de la trazabilidad de contenedores (Contopía©), por autoría de Víctor Hugo Ramírez Salgado. Cifras de ejemplo tomadas de su hoja de trabajo; no representan operaciones de ninguna empresa ni autoridad.</p>
+<p>© 2026 Víctor Hugo Ramírez Salgado. Todos los derechos reservados · Trazabilidad de contenedores: Safe Creative 2610317507741. Prohibida su reproducción total o parcial y su uso para entrenar inteligencia artificial sin autorización escrita del titular.</p>
+</div></footer>
+<script src="costos.js?v=1"></script>
+<script src="../sitio.js"></script>
+</body>
+</html>
