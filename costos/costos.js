@@ -13,7 +13,7 @@
     { c: 'Importador (personal)', a: 'Importador', n: 'N', m: 5000 },
     { c: 'Flete terrestre a destino', a: 'Transportista SPF', n: 'L', m: 0, p: 1 },
     { c: 'Bodega del frijol (25 t)', a: 'Bodega', n: 'L', m: 3000 },
-    { c: 'Consumos del transporte terrestre', a: 'Transportista SPF', n: 'L', m: 4000, p: 1 },
+    { c: 'Consumos del transporte terrestre', a: 'Transportista SPF', n: 'L', m: 4000 },
     { c: 'Casetas', a: 'Autopistas', n: 'F', m: 2000 },
     { c: 'Valor agregado / manipulación', a: 'Bodega', n: 'L', m: 0, p: 1 },
     { c: 'Patio seco · estadía 3 días', a: 'Patio de vacíos', n: 'L', m: 4500 },
