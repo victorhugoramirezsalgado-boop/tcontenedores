@@ -28,3 +28,50 @@ main>*{min-width:0}
  #cargos td:nth-child(5){grid-column:3;grid-row:3}
  #cargos td.n{text-align:left}
 }
+/* Trazabilidad de costos */
+.pestanas{padding-top:14px}
+.panel{display:grid;gap:16px}.panel[hidden]{display:none}
+#t-tabla input{width:100%;min-width:70px}
+#t-tabla input.n{text-align:right}
+#t-tabla td:nth-child(2) input{min-width:200px}
+#t-tabla td:nth-child(8) input{min-width:180px}
+#t-tabla tr.ret td:first-child{box-shadow:inset 4px 0 0 #2E6E8E}
+#t-tabla tr.imp td:first-child{box-shadow:inset 4px 0 0 var(--verde)}
+#t-tabla tr.pend td:nth-child(2)::after{content:" ‡";text-decoration:underline;color:var(--aviso)}
+#t-tabla tr.pend td:first-child::after{content:none}
+.gantt{display:grid;gap:6px;margin-top:6px}
+.g-esc{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-left:38%;margin-right:110px}
+.g-fila{display:grid;grid-template-columns:38% 1fr 110px;align-items:center;gap:8px;font-size:12.5px}
+.g-c{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-pista{position:relative;height:16px;background:var(--crema);border:1px solid var(--linea);border-radius:6px}
+.g-pista i{position:absolute;top:2px;bottom:2px;border-radius:4px;background:var(--verde)}
+.g-fila.ret .g-pista i{background:#2E6E8E}
+.g-m{font-family:"JetBrains Mono",monospace;font-size:11.5px;text-align:right}
+.ref td:nth-child(2){white-space:normal}
+@media (max-width:620px){
+ #t-tabla{min-width:0}
+ #t-tabla thead{display:none}
+ #t-tabla,#t-tabla tbody,#t-tabla tr,#t-tabla td{display:block;width:100%;min-width:0}
+ #t-tabla tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:10px 0 10px 8px;border-bottom:1px solid var(--linea)}
+ #t-tabla td{padding:0;border:0}
+ #t-tabla td:nth-child(2),#t-tabla td:nth-child(8){grid-column:1/-1}
+ #t-tabla td:nth-child(2) input,#t-tabla td:nth-child(8) input{min-width:0}
+ #t-tabla td:nth-child(1){grid-column:1/3;grid-row:1}
+ #t-tabla td:nth-child(4){grid-column:3;grid-row:1}
+ #t-tabla td:nth-child(2){grid-row:2}
+ #t-tabla td:nth-child(3){grid-column:1/-1;grid-row:3}
+ #t-tabla td:nth-child(5){grid-column:1;grid-row:4}
+ #t-tabla td:nth-child(6){grid-column:2;grid-row:4}
+ #t-tabla td:nth-child(7){grid-column:3;grid-row:4}
+ #t-tabla td:nth-child(8){grid-row:5}
+ #t-tabla td:nth-child(9){grid-column:3;grid-row:6;justify-self:end}
+ #t-tabla td.n input{text-align:left}
+ #t-tabla td:nth-child(5)::before{content:"Inicia (día)";display:block;font-size:11px;color:var(--mut)}
+ #t-tabla td:nth-child(6)::before{content:"Días";display:block;font-size:11px;color:var(--mut)}
+ #t-tabla td:nth-child(7)::before{content:"MXN";display:block;font-size:11px;color:var(--mut)}
+ .g-fila{grid-template-columns:42% 1fr;}
+ .g-m{grid-column:1/-1;text-align:left;color:var(--mut)}
+ .g-esc{margin-left:42%;margin-right:0}
+}
+@media print{.pestanas{display:none}.panel[hidden]{display:none}}
+.compara .puntos li{text-align:left}

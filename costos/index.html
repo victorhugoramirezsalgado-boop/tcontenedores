@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../cctt/cctt.css?v=6">
-<link rel="stylesheet" href="costos.css?v=4">
+<link rel="stylesheet" href="costos.css?v=6">
 </head>
 <body>
 <div class="regreso"><div class="cont">
@@ -27,7 +27,7 @@
 <header class="cab"><div class="cont">
 <div class="tit">
 <span class="et">MÓDULO DE TRAZABILIDAD DE CONTENEDORES · CONTOPÍA©</span>
-<h1 data-morse="COSTEO" title="Toca para oír en Morse">Costeo por contenedor</h1>
+<h1 data-morse="COSTEO" title="Toca para oír en Morse">Costeo y trazabilidad de costos</h1>
 <p class="lema">Cuánto cuesta de verdad un contenedor de importación, de principio a fin y con cada cargo atribuido a quien lo cobra: naviera, puerto, terminal, aduana, agente aduanal, transporte y patio. Así se compara, se negocia y se transparenta.</p>
 <p class="morse-linea" id="morse" aria-live="polite"></p>
 </div>
@@ -43,8 +43,12 @@
 </div>
 </div></header>
 
+<nav class="pestanas cont" role="tablist" aria-label="Secciones">
+<button class="pest" role="tab" data-p="calc" aria-selected="true">Calculadora</button>
+<button class="pest" role="tab" data-p="traza" aria-selected="false">Trazabilidad de costos</button>
+</nav>
 <main class="cont">
-
+<div class="panel" id="p-calc" role="tabpanel">
 <section class="caja">
 <h2>1. Mercancía y valor en aduana</h2>
 <div class="params">
@@ -107,6 +111,60 @@
 <p class="nota"><u>‡</u> Dato con menos de 90–95 % de confirmación en las fuentes consultadas: verifícalo con tu agente aduanal. El IVA pagado en la importación suele ser acreditable; el arancel y el DTA no. Esta herramienta estima y no sustituye el pedimento ni la asesoría de un agente aduanal.</p>
 </section>
 
+</div>
+<div class="panel" id="p-traza" role="tabpanel" hidden>
+<section class="caja">
+<h2>Trazabilidad de costos por eslabón</h2>
+<p class="nota">Cada renglón es un eslabón de la cadena: qué se paga, a quién, en qué tramo, cuándo empieza, cuántos días dura y cuánto cuesta. Los valores iniciales son los de la hoja «XXIX · Temas internos» (frijol, 25 t, un contenedor de 20'). Sustitúyelos por costos reales; los marcados con <u>‡</u> están por confirmar.</p>
+<div class="params">
+<label>Operación<input id="t-op" type="text"></label>
+<label>Contenedor (ISO 6346)<input id="t-cont" class="mono" type="text" placeholder="ABCU1234567"></label>
+<label>Peso neto (kg)<input id="t-kg" type="number" min="0" step="100"></label>
+<label>Tipo de cambio (MXN por USD)<input id="t-fx" type="number" min="0" step="0.01"></label>
+</div>
+</section>
+<section class="caja">
+<h3>Eslabones</h3>
+<div class="tabla-c"><table id="t-tabla"><thead><tr><th>Tramo</th><th>Concepto</th><th>Lo cobra</th><th>Nivel</th><th class="n">Inicia (día)</th><th class="n">Días</th><th class="n">MXN</th><th>Fuente o nota</th><th></th></tr></thead><tbody></tbody></table></div>
+<p class="acciones">
+<button class="b3d verde" id="t-agregar">+ Agregar eslabón</button>
+<button class="b3d" id="t-encadenar" title="Cada eslabón empieza cuando termina el anterior">Encadenar días</button>
+<button class="b3d" id="t-paralelo" title="Todos empiezan el día 0">Todos en paralelo</button>
+</p>
+</section>
+<section class="caja">
+<h3>Resumen</h3>
+<div class="kpis" id="t-kpis"></div>
+<div class="fila2">
+<div><h3>Por tramo</h3><div class="tabla-c"><table id="t-tramos"></table></div></div>
+<div><h3>Por actor</h3><div class="tabla-c"><table id="t-actores"></table></div></div>
+</div>
+<h3>Línea de tiempo</h3>
+<div id="t-gantt" class="gantt"></div>
+<div id="t-alertas" class="compara"></div>
+<p class="acciones">
+<button class="b3d verde" id="t-guardar">Guardar en este equipo</button>
+<button class="b3d" id="t-csv">Descargar CSV</button>
+<button class="b3d" id="imprimir2">Imprimir / PDF</button>
+<button class="b3d rojo" id="t-reset">Volver a la hoja original</button>
+</p>
+<p class="msg" id="t-msg" aria-live="polite"></p>
+</section>
+<section class="caja">
+<h3>Referencias de mercado para comparar</h3>
+<div class="tabla-c"><table class="ref"><thead><tr><th>Concepto</th><th>Referencia</th><th>Fuente</th></tr></thead><tbody>
+<tr><td>Honorarios del agente aduanal</td><td>$3,000–8,000 por pedimento (importación definitiva estándar)</td><td>Camtom (2026)</td></tr>
+<tr><td>Prevalidación del pedimento</td><td>$350 por pedimento (2026)</td><td>PwC (2026), RGCE 2026, regla 1.8.3.</td></tr>
+<tr><td>DTA</td><td>8 al millar sobre el valor en aduana</td><td>LFD, art. 49</td></tr>
+<tr><td>IVA de importación de frijol</td><td>0 % (alimento, LIVA art. 2-A)</td><td>LIVA, art. 25, fr. III</td></tr>
+<tr><td>Carga de contenedor lleno a camión (SPF)</td><td>$2,600 por unidad (terminal privada de Veracruz)<u>‡</u></td><td>Tarifas registradas ante la autoridad portuaria</td></tr>
+<tr><td>Almacenaje de contenedor de 20'</td><td>$445 por día (terminal privada de Veracruz)<u>‡</u></td><td>Tarifas registradas ante la autoridad portuaria</td></tr>
+<tr><td>Flete marítimo Shanghái–Ensenada, 40' HC</td><td>US$6,836–7,427 (vigencia a julio de 2026)<u>‡</u></td><td>Flexport (2026)</td></tr>
+<tr><td>Frijol pinto al mayoreo (Nuevo León)</td><td>$18.60 por kg (septiembre de 2026)</td><td>SNIIM, vía Tierra Fuerte (2026)</td></tr>
+</tbody></table></div>
+<p class="nota"><u>‡</u> Referencia de otro puerto o de otra fecha: pide la tarifa registrada de la terminal de Ensenada para comparar con precisión.</p>
+</section>
+</div>
 <section class="caja">
 <h2>Índice de nomenclaturas</h2>
 <div class="tabla-c"><table class="nom"><tbody>
@@ -133,6 +191,11 @@
 <li>Servicio de Administración Tributaria. (2025). <i>Anexo 27 de las Reglas Generales de Comercio Exterior para 2025: fracciones arancelarias por cuya importación no se está obligado al pago del IVA</i>. https://www.sat.gob.mx/minisitio/NormatividadRMFyRGCE/documentos2025/rgce/anexos/Anexo27delasRGCEpara2025.pdf</li>
 <li>Secretaría de Economía. (2025, 31 de diciembre). Decreto por el que se modifica el diverso por el que se exenta el pago de arancel de importación [...]. <i>Diario Oficial de la Federación</i>. https://www.diputados.gob.mx/LeyesBiblio/ref/ligie_2022/LIGIE_2022_tarifa14_31dic25.pdf</li>
 <li>Camtom. (2026). <i>Fracción arancelaria 0713.33.01: frijol común seco</i>. https://camtomx.com/fraccion/0713-33-01</li>
+<li>Camtom. (2026, 7 de abril). <i>Agente aduanal en México: qué es, funciones, costos y cómo elegir uno (2026)</i>. https://camtomx.com/en/blog/agente-aduanal-que-es-funciones-como-elegir</li>
+<li>PwC México. (2026). <i>Reglas Generales de Comercio Exterior para 2026</i>. https://www.pwc.com/mx/es/impuestos/archivo/novedades-fiscales/2026/202601-reglas-generales-de-comercio-exterior-para-2026.pdf</li>
+<li>Almacenajes y Maniobras Integrales del Golfo. (s. f.). <i>Tarifas de maniobras y almacenaje</i>. https://www.gob.mx/cms/uploads/attachment/file/854648/Web_Almacenajes_y_maniobras_integrales_del_golfo.pdf</li>
+<li>Flexport. (2026). <i>Freight rates from Shanghai, China to Ensenada, Mexico</i>. https://www.flexport.com/rates/cnshg/mxese</li>
+<li>Tierra Fuerte. (2026). <i>Se desploma 40 % el precio del frijol por remates federales</i>. https://www.tierrafuerte.mx/archivos/83967</li>
 </ol>
 </section>
 
@@ -142,7 +205,8 @@
 <p><b>Costeo por contenedor</b>, módulo de la trazabilidad de contenedores (Contopía©), por autoría de Víctor Hugo Ramírez Salgado. Cifras de ejemplo tomadas de su hoja de trabajo; no representan operaciones de ninguna empresa ni autoridad.</p>
 <p>© 2026 Víctor Hugo Ramírez Salgado. Todos los derechos reservados · Trazabilidad de contenedores: Safe Creative 2610317507741. Prohibida su reproducción total o parcial y su uso para entrenar inteligencia artificial sin autorización escrita del titular.</p>
 </div></footer>
-<script src="costos.js?v=2"></script>
+<script src="costos.js?v=3"></script>
+<script src="trazabilidad.js?v=1"></script>
 <script src="../sitio.js"></script>
 </body>
 </html>
